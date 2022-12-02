@@ -32,14 +32,14 @@ function checkUserParams(query){
 
 (async function(){
 const port = "27017";
-const host = "127.0.0.1";
+const host = "54.193.157.217";
 const dbname = "data";
 const opts = {
     useUnifiedTopology: true
   };
 const uri = "mongodb://"+host+":"+port;
 let client =  await MongoClient.connect(uri);
-const qidb = client.db(dbname,opts);
+const dataDb = client.db(dbname,opts);
 
 
 app.get('/ping', function(req, res){
@@ -58,13 +58,16 @@ app.get('/userById/:id', async function(req, res){
         return res.send(JSON.stringify(data[0]));
     }     
 });
+
 app.get('/movieById/:id', async function(req, res){
     let id = req.params.id;
-    const data = await dataDb.collection('Movie').find({"_id": ObjectId(id)});
-    if (data == []){
+    
+    const data = await dataDb.collection('Movie').findOne({"id": Number.parseInt(id)});
+    console.log(data)
+    if (data === null){
         return res.status(400).send('movie not found with id:' + id);
     }else{
-        return res.send(JSON.stringify(data[0]));
+        return res.send(JSON.stringify(data));
     }     
 });
 
