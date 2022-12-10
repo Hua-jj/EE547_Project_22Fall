@@ -44,6 +44,7 @@ const session=require('express-session');
         RateUpdate(rid: ID!, rate: Float): Rating
 
         login(name: String, password: String): Boolean
+        logout: Boolean
     }
 
     input InputUser{
@@ -172,28 +173,48 @@ const session=require('express-session');
         },
         Mutation: {
             userCreate: async (_, {inputUser }, context) => {
-                inputUser._id = ObjectId();
-                const data = await qidb.collection('Users').insertOne(inputUser);
-                return context.loaders.user.load(inputUser._id);
+                
+                if(typeof(context.session.loginStatus) == "undefined" ||context.session.loginStatus == "false"){
+                    inputUser._id = ObjectId();
+                    const data = await qidb.collection('Users').insertOne(inputUser);
+                    return context.loaders.user.load(inputUser._id);
+                }else{
+                    return null;
+                }
             },
             userUpdate: async (_, {uid, inputUser}, context) => {
-                data = await qidb.collection('Users').updateOne({_id:ObjectId(uid)}, {$set: inputUser });
-                return context.loaders.user.load(uid);
+                if(context.session.loginStatus && context.session.loginStatus == "true"){
+                    data = await qidb.collection('Users').updateOne({_id:ObjectId(uid)}, {$set: inputUser });
+                    return context.loaders.user.load(uid);
+                }else{
+                    return null;
+                }
             },
             CommentCreate: async (_, {inputComment }, context) => {
-                inputComment._id = ObjectId();
-                const data = await qidb.collection('Comments').insertOne(inputComment);
-                return context.loaders.comment.load(inputComment._id);
+                if(context.session.loginStatus && context.session.loginStatus == "true"){
+                    inputComment._id = ObjectId();
+                    const data = await qidb.collection('Comments').insertOne(inputComment);
+                    return context.loaders.comment.load(inputComment._id);
+                }else{
+                    return null;
+                }
             },
             RateCreate: async (_, {inputRate }, context) => {
-                inputRate._id = ObjectId();
-                const data = await qidb.collection('Ratings').insertOne(inputRate);
-                return context.loaders.rating.load(inputRate._id);
+                if(context.session.loginStatus && context.session.loginStatus == "true"){
+                    inputRate._id = ObjectId();
+                    const data = await qidb.collection('Ratings').insertOne(inputRate);
+                    return context.loaders.rating.load(inputRate._id);
+                }else{
+                    return null;
+                }
             },
             RateUpdate: async (_, {rid, rate }, context) => {
-    
-                const data = await qidb.collection('Ratings').updateOne({_id:ObjectId(rid)}, {$set: {"rate": rate} });
-                return context.loaders.rating.load(rid);
+                if(context.session.loginStatus && context.session.loginStatus == "true"){
+                    const data = await qidb.collection('Ratings').updateOne({_id:ObjectId(rid)}, {$set: {"rate": rate} });
+                    return context.loaders.rating.load(rid);
+                }else{
+                    return null;
+                }
             },
             login: async(_, {name, pw}, context) =>{
                 const data = await qidb.collection('Users').find({"name": name, "password":pw}).toArray();
@@ -205,8 +226,16 @@ const session=require('express-session');
                     console.log(context.session);
                     return true;
                 }
-                
-            }
+            },
+            logout: async(_, {}, context) =>{
+                if(context.session.loginStatus && context.session.loginStatus == "true"){
+                    context.session.loginStatus = "false";
+                    context.session.userId = "";
+                    return true;
+                }else{
+                    return false;
+                }
+            },
         },
     
         User:{
