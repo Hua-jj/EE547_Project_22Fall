@@ -32,12 +32,13 @@ function checkUserParams(query){
 
 (async function(){
 const port = "27017";
-const host = "54.193.157.217";
-const dbname = "data";
+const host = "18.144.8.30";
+const dbname = "new_data";
 const opts = {
     useUnifiedTopology: true
   };
-const uri = "mongodb://"+host+":"+port;
+const uri = "mongodb://hjj:ee547@"+host+":"+port+"/"+dbname;
+console.log(uri)
 let client =  await MongoClient.connect(uri);
 const dataDb = client.db(dbname,opts);
 
@@ -62,7 +63,7 @@ app.get('/userById/:id', async function(req, res){
 app.get('/movieById/:id', async function(req, res){
     let id = req.params.id;
     
-    const data = await dataDb.collection('Movie').findOne({"id": Number.parseInt(id)});
+    const data = await dataDb.collection('movie').findOne({"id": Number.parseInt(id)});
     console.log(data)
     if (data === null){
         return res.status(400).send('movie not found with id:' + id);

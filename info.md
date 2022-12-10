@@ -11,26 +11,21 @@ db.createUser(
 {
 user: "lrz",
 pwd:  "ee547",
-roles:[{role: "readWrite" , db:"data"}]})
+roles:[{role: "readWrite" , db:"new_data"}]})
 
-*db.createUser(
+db.createUser(
 {
 user: "hjj",
 pwd:  "ee547",
-roles:[{role: "readWrite" , db:"data"}]})
+roles:[{role: "readWrite" , db:"new_data"}]})
 
 db.createUser(
 {
 user: "lzy",
 pwd:  "ee547",
-roles:[{role: "userAdmin" , db:"data"}]})
+roles:[{role: "userAdmin" , db:"new_data"}]})
 
-db.createUser(
-{
-user: "lzy_admin",
-pwd:  "ee547",
-roles:[{role: "userAdminAnyDatabase" , db:"admin"}]})
-```
+
 
 
 login command:
