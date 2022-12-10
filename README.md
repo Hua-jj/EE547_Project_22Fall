@@ -18,8 +18,8 @@ Comments
 Ratings
 
 ## graphql schema:
-stored in [a relative link](schema.graphql)
+stored in [schema](schema.graphql)
 
 ## server:
-[a relative link](index.js)
+stored in [server](index.js)
 
