@@ -7,7 +7,6 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var contentType = 'application/json';
 const userKeys = [ "_id","name","password","age","address","Email","status"]
-var tunnel = require('tunnel-ssh');
 
 function checkUserParams(query){
     let res = {
@@ -32,14 +31,15 @@ function checkUserParams(query){
 
 (async function(){
 const port = "27017";
-const host = "127.0.0.1";
+// const host = "54.193.157.217";
+const host = "localhost";
 const dbname = "data";
 const opts = {
     useUnifiedTopology: true
   };
 const uri = "mongodb://"+host+":"+port;
 let client =  await MongoClient.connect(uri);
-const qidb = client.db(dbname,opts);
+const dataDb = client.db(dbname,opts);
 
 
 app.get('/ping', function(req, res){
@@ -49,8 +49,8 @@ app.get('/ping', function(req, res){
 
 app.get('/userById/:id', async function(req, res){
     let id = req.params.id;
-    // const data = await dataDb.collection('Users').find({"_id": ObjectId(id)});
-    const data = await dataDb.collection('Users').find({});
+    const data = await dataDb.collection('Users').find({"_id": ObjectId(id)}).toArray();
+    // const data = await dataDb.collection('Users').find({});
     if (data == []){
         return res.status(400).send('user not found with id:' + id);
     }else{
@@ -60,7 +60,8 @@ app.get('/userById/:id', async function(req, res){
 });
 app.get('/movieById/:id', async function(req, res){
     let id = req.params.id;
-    const data = await dataDb.collection('Movie').find({"_id": ObjectId(id)});
+    const data = await dataDb.collection('Movie').find({"id": Number.parseInt(id)}).toArray();
+    console.log(data)
     if (data == []){
         return res.status(400).send('movie not found with id:' + id);
     }else{
@@ -91,7 +92,8 @@ app.get('/ratingById/:id', async function(req, res){
 app.get('/user/:name/:pw', async function(req, res){
     let name = req.params.name;
     let pw = req.params.pw;
-    const data = await dataDb.collection('Users').find({"name": name, "password": pw})
+    console.log(name,pw)
+    const data = await dataDb.collection('Users').find({"name": name, "password": pw}).toArray();
     if (data == []){
         return res.status(400).send('Wrong name or password');
     }else{

@@ -12,28 +12,14 @@ Personal Profile: This page will display the user information and provide users 
 Movie details: The information about the movie, including movie name, director, starring actor, etc.
 
 ## Database collections we have:
-Movie
+Movies
 Users
 Comments
 Ratings
 
-## express server api route:
-### 1, get /user/:name/:pw
-get the member information: by name and password
-### 2, get /movie/:kw
-get the information of the movie by keyword of name
-return all the movie that match the regex expression of keyword, case incensitive
+## graphql schema:
+stored in [a relative link](schema.graphql)
 
-### 3, get /genre/:name/:limit?
-get the movies in the genre: limit is set default as 5
-### 4, get /comment/:mid?/:uid?/:limit?
-get the comments of the movie and a member
-### 4, get /rate/:mid?/:uid?/:limit?
-get the rating of the movie and a member
-
-
-
-### 5, post /user
-### 6, post /comment
-### 7, post /rate
+## server:
+[a relative link](index.js)
 

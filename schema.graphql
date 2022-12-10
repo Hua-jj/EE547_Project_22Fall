@@ -1,0 +1,91 @@
+
+    type Query {
+        userById(uid: ID!): User
+        
+        userByname(name: String, pw: String): User
+          
+        movieById(mid: ID!): Movie
+        movieBykw(kw: String):[Movie]!
+        commentById(cid: ID!): Comment
+        ratingById(rid: ID!): Rating
+        genre(name: String, limit: Int): [Movie]!
+        comment(mid:ID, uid: ID, limit: Int): [Comment]!
+        rate(mid:ID, uid: ID, limit: Int): [Rating]!
+    }
+
+    type Mutation {
+        userCreate(inputUser: InputUser): User
+        userUpdate(uid: ID!, inputUser: InputUser): User
+
+        CommentCreate(inputComment: InputComment): Comment
+        RateCreate(inputRate: InputRate): Rating
+        RateUpdate(rid: ID!, rate: Float): Rating
+    }
+
+    input InputUser{
+        name: String
+        password: String
+        age: Int
+        address: String
+        Email: String
+        status:statusEnum
+    }
+
+    input InputComment{
+        movieId: ID
+        userId: ID
+        commentText: String
+    }
+
+    input InputRate{
+        movieId: ID
+        userId: ID
+        rate: Float
+    }
+    
+    enum statusEnum{
+        memeber
+        nonmember
+    }
+    
+    type User {
+        uid: ID!
+        name: String
+        password: String
+        age: Int
+        address: String
+        Email: String
+        status:statusEnum
+    }
+    type Movie {
+        mid: ID!
+        adult: Boolean
+        budget: Int
+        genres: [Genre]
+        language: String
+        title: String
+        overview: String
+        popularity: Float
+        release_date: String
+        revenue: Float
+        runtime: Float
+        status: String
+    }
+    type Genre{
+        id: Int
+        name: String
+    }
+
+    type Rating{
+        rid: ID
+        movieId: ID
+        userId: ID
+        rate: Float
+    }
+
+    type Comment{
+        cid: ID
+        movieId: ID
+        userId: ID
+        commentText: String
+    }

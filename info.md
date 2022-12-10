@@ -1,4 +1,4 @@
-ssh ubuntu@52.53.202.214
+ssh ubuntu@54.193.157.217
 Pwd: myaws1!
 
 sudo service mongod restart
