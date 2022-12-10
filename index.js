@@ -9,6 +9,7 @@ const app = express();
 const MONGO_CONFIG_FILE = './config/mongo.json';
 const { ObjectID } = require('bson');
 const e = require('express');
+const session=require('express-session');
 
 (async function(){
   
@@ -38,10 +39,11 @@ const e = require('express');
     type Mutation {
         userCreate(inputUser: InputUser): User
         userUpdate(uid: ID!, inputUser: InputUser): User
-
         CommentCreate(inputComment: InputComment): Comment
         RateCreate(inputRate: InputRate): Rating
         RateUpdate(rid: ID!, rate: Float): Rating
+
+        login(name: String, password: String): Boolean
     }
 
     input InputUser{
@@ -193,7 +195,18 @@ const e = require('express');
                 const data = await qidb.collection('Ratings').updateOne({_id:ObjectId(rid)}, {$set: {"rate": rate} });
                 return context.loaders.rating.load(rid);
             },
-
+            login: async(_, {name, pw}, context) =>{
+                const data = await qidb.collection('Users').find({"name": name, "password":pw}).toArray();
+                if(data == []){
+                    return false;
+                }else{
+                    context.session.userId = name;
+                    context.session.loginStatus = "true";
+                    console.log(context.session);
+                    return true;
+                }
+                
+            }
         },
     
         User:{
@@ -303,6 +316,14 @@ const e = require('express');
       },
       typeDefs
     });
+
+    app.use(session(
+        { name:'SessionCookie',
+        secret:'secret-key',
+          resave: false,
+          saveUninitialized: false,
+        }));
+
     app.get('/ping',  function(req, res){
       let respBody = '';
       res.writeHead(204)
@@ -321,7 +342,8 @@ const e = require('express');
               movie: new DataLoader(keys => getMovies(qidb, keys)),
               comment: new DataLoader(keys => getComments(qidb, keys)),
               rating: new DataLoader(keys => getRatings(qidb, keys)),
-          }
+          },
+          session
         },
         // formatError: (err) => {
         //   const error = getErrorCode(err.message)
