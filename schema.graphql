@@ -1,4 +1,3 @@
-
     type Query {
         userById(uid: ID!): User
         
@@ -16,10 +15,11 @@
     type Mutation {
         userCreate(inputUser: InputUser): User
         userUpdate(uid: ID!, inputUser: InputUser): User
-
         CommentCreate(inputComment: InputComment): Comment
         RateCreate(inputRate: InputRate): Rating
         RateUpdate(rid: ID!, rate: Float): Rating
+
+        login(name: String, password: String): Boolean
     }
 
     input InputUser{
