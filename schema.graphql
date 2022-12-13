@@ -70,6 +70,8 @@
         revenue: Float
         runtime: Float
         status: String
+        img_path: String
+        tagline: String
     }
     type Genre{
         id: Int
