@@ -46,9 +46,5 @@ The address of the database is defined by line 16-22 in `./index.js`
 
 To run the server, use `node index.js`
 
-## graphql schema:
-stored in [schema](schema.graphql)
 
-## server:
-stored in [server](index.js)
 
