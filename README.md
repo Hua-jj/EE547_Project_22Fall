@@ -35,13 +35,12 @@ Movie details: The information about the movie, including movie name, director, 
 
 `./schema.graphql` graphql schema.
 
-`./spider_TMDB` the spider program which dynamically request data from TMDB and insert into the mongoDB.
+`./spider_TMDB` the spider program which dynamically requests data from TMDB and insert into the mongoDB.
 
 ## Configration and usage
 Before running the application, the address of the database and the url of the server should be configured properly.
 
 The url of the server is defined by the `base_url` variable in `./views/js/module.js`.
-
 
 The address of the database is defined by line 16-22 in `./index.js`
 
