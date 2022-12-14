@@ -11,11 +11,41 @@ Personal Profile: This page will display the user information and provide users 
 
 Movie details: The information about the movie, including movie name, director, starring actor, etc.
 
-## Database collections we have:
-Movies
-Users
-Comments
-Ratings
+## Database collections:
+`Movies` `Users` `Comments` `Ratings`
+
+## File details
+`./node_moudules` downloaded node modules.
+
+`./views/assets/brand` icons.
+
+`./views/assets/dist` major css stylesheets and js scripts of `Bootstrap`.
+
+`./views/css` self-define stylesheets.
+
+`./views/imgs` poster of movies.
+
+`./views/js` javascript files of the corresponding ejs pages.
+
+`./view/pages` ejs template pages.
+
+`./index.js` the code of the server.
+
+`./package.json` required packages of this application.
+
+`./schema.graphql` graphql schema.
+
+`./spider_TMDB` the spider program which dynamically request data from TMDB and insert into the mongoDB.
+
+## Configration and usage
+Before running the application, the address of the database and the url of the server should be configured properly.
+
+The url of the server is defined by the `base_url` variable in `./views/js/module.js`.
+
+
+The address of the database is defined by line 16-22 in `./index.js`
+
+To run the server, use `node index.js`
 
 ## graphql schema:
 stored in [schema](schema.graphql)
