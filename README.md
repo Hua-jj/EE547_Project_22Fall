@@ -1,5 +1,8 @@
 # EE547_Project_22Fall
 
+## Github link:
+https://github.com/Hua-jj/EE547_Project_22Fall
+
 ## Architecture
 Home:  The initial page where the user can start all the movements. Various functionalities, including finding movies by section or keywords, will be presented on this page for users to choose from. Moreover, this page will also display selected popular movies which could be redirected to its forum by clicking on them.
 
